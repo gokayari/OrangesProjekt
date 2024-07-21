@@ -1,4 +1,5 @@
 import Pages.BasePage;
+import Pages.DashboardPage;
 import Pages.HomePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,6 +12,7 @@ public class Tests {
     WebDriver driver;
     BasePage basePage;
     HomePage homePage;
+    DashboardPage dashboardPage;
 
     @BeforeMethod
     public void setup(){
@@ -23,6 +25,7 @@ public class Tests {
 
     @Test
     public void loginTest(){
+        dashboardPage = new DashboardPage(driver);
 
         //Benutzername eingeben:
         homePage.benutzernameEingeben(ConfigurationReader.getProperty("Benutzername"));
@@ -32,6 +35,9 @@ public class Tests {
 
         //Einloggen:
         homePage.einloggen();
+
+        //Prüfen, ob Einloggen erfolgreich war:
+        dashboardPage.einloggenÜberprüfen(ConfigurationReader.getProperty("Überprüfungstext"));
     }
 
 }
