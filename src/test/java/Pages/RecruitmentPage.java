@@ -18,6 +18,9 @@ public class RecruitmentPage extends BasePage{
     By eMailBar = By.xpath("//form[@class='oxd-form']/div[3]/div[@class='oxd-grid-3 orangehrm-full-width-grid']/div[1]//input[@class='oxd-input oxd-input--active']");
     By contactNumberBar = By.xpath("//form[@class='oxd-form']//div[2]//div[2]/input[@class='oxd-input oxd-input--active']");
     By dateOfAppBar = By.cssSelector("[placeholder='yyyy-dd-mm']");
+    By kalenderLocator = By.cssSelector(".oxd-calendar-wrapper");
+    By monatLocator = By.xpath("//div[@class='oxd-calendar-selector-month-selected']");
+    By jahrLocator = By.cssSelector(".oxd-calendar-selector-year .oxd-text");
     By saveTaste = By.cssSelector(".oxd-button--secondary");
     By applicationStageText = By.xpath("//h6[.='Application Stage']");
     By candidatesTaste = By.xpath("//a[.='Candidates']");
@@ -31,7 +34,7 @@ public class RecruitmentPage extends BasePage{
 
     public void eingabeVonKandidatendaten(String vorname, String nachname,
                                                String stellenausschreibung, String eMail,
-                                               String telefonnumer, String datum){
+                                               String telefonnumer, String tag, String monat, String jahr){
         wait.until(ExpectedConditions.presenceOfElementLocated(addTaste));
         driver.findElement(addTaste).click();
 
@@ -41,11 +44,20 @@ public class RecruitmentPage extends BasePage{
         driver.findElement(vacancyLocator).click();
         By gewünschteStelle = By.xpath(".//div[.='"+stellenausschreibung+"']");
         driver.findElement(gewünschteStelle).click();
+
         driver.findElement(eMailBar).sendKeys(eMail);
         driver.findElement(contactNumberBar).sendKeys(telefonnumer);
-        driver.findElement(dateOfAppBar).clear();
-        //driver.findElement(dateOfAppBar).sendKeys(datum);
-        System.out.println(datum);
+
+        driver.findElement(dateOfAppBar).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(kalenderLocator));
+        driver.findElement(monatLocator).click();
+        By gewünschterMonat = By.cssSelector(".oxd-calendar-dropdown > li:nth-of-type("+monat+")");
+        driver.findElement(gewünschterMonat).click();
+        driver.findElement(jahrLocator).click();
+        By gewünschtesJahr = By.xpath("//li[.='"+jahr+"']");
+        driver.findElement(gewünschtesJahr).click();
+        By gewünschterTag = By.xpath("//div["+tag+"]/div[@class='oxd-calendar-date']");
+        driver.findElement(gewünschterTag).click();
 
         driver.findElement(saveTaste).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(applicationStageText));
