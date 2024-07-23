@@ -11,6 +11,7 @@ import java.util.List;
 
 public class RecruitmentPage extends BasePage{
 
+    By recruitmentMenüpunktLocator = By.xpath("//li[@class='oxd-main-menu-item-wrapper'][5]");
     By addTaste = By.xpath("//button[@class='oxd-button oxd-button--medium oxd-button--secondary']");
     By firstNameBar = By.name("firstName");
     By lastNameBar = By.name("lastName");
@@ -35,6 +36,9 @@ public class RecruitmentPage extends BasePage{
     public void eingabeVonKandidatendaten(String vorname, String nachname,
                                                String stellenausschreibung, String eMail,
                                                String telefonnumer, String tag, String monat, String jahr){
+        wait.until(ExpectedConditions.presenceOfElementLocated(recruitmentMenüpunktLocator));
+        driver.findElement(recruitmentMenüpunktLocator).click();
+
         wait.until(ExpectedConditions.presenceOfElementLocated(addTaste));
         driver.findElement(addTaste).click();
 
