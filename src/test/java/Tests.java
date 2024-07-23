@@ -28,7 +28,7 @@ public class Tests {
         menuItemsPage = new MenuItemsPage(driver);
     }
 
-    @Test
+    @Test(priority = 0)
     public void loginTest() {
 
         //Benutzername eingeben:
@@ -44,7 +44,7 @@ public class Tests {
         menuItemsPage.einloggenÜberprüfen(ConfigurationReader.getProperty("Überprüfungstext"));
     }
 
-    @Test
+    @Test(priority = 1)
     public void menüpunkteTest(){
 
         //Benutzername eingeben:
@@ -61,7 +61,7 @@ public class Tests {
 
     }
 
-    @Test
+    @Test(priority = 2)
     public void funktionTest(){
         recruitmentPage = new RecruitmentPage(driver);
 
@@ -73,9 +73,6 @@ public class Tests {
 
         //Einloggen:
         homePage.einloggen();
-
-        //Prüfen, ob andere Menüpunkte geöffnet werden können:
-        menuItemsPage.menüpunkteÜberprüfen();
 
         //Eingabe von Kandidatendaten:
         recruitmentPage.eingabeVonKandidatendaten(ConfigurationReader.getProperty("Vorname"),
