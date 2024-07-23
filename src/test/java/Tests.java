@@ -83,7 +83,9 @@ public class Tests {
                 ConfigurationReader.getProperty("Stellenausschreibung"),
                 ConfigurationReader.getProperty("E-Mail"),
                 ConfigurationReader.getProperty("Telefonnumer"),
-                ConfigurationReader.getProperty("Datum"));
+                ConfigurationReader.getProperty("Tag"),
+                ConfigurationReader.getProperty("Monat"),
+                ConfigurationReader.getProperty("Jahr"));
 
         //Prüfen, ob der/die Kandidat/Kandidatin gespeichert wurde:
         recruitmentPage.kandidatencheck(ConfigurationReader.getProperty("Vorname"),
