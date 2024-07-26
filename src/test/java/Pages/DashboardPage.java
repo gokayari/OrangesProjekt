@@ -8,8 +8,10 @@ import org.testng.Assert;
 public class DashboardPage extends BasePage{
 
     By dashboardTitel = By.cssSelector(".oxd-text--h6");
-    By assignLeaveQuickLaunch = By.cssSelector(".oxd-icon-button[title='Assign Leave'] > .oxd-icon");
-    By assignLeaveButton = By.xpath("//a[.='Assign Leave']");
+    By assignLeaveQLTaste = By.cssSelector(".oxd-icon-button[title='Assign Leave'] > .oxd-icon");
+    By assignLeaveQuickLaunch = By.xpath("//p[.='Assign Leave']");
+    By assignLeaveTitel = By.cssSelector(".orangehrm-main-title");
+
 
 
     public DashboardPage(WebDriver driver) {
@@ -19,9 +21,14 @@ public class DashboardPage extends BasePage{
 
     public void quickLaunchÜberprüfen (){
         wait.until(ExpectedConditions.presenceOfElementLocated(dashboardTitel));
-        driver.findElement(assignLeaveQuickLaunch).click();
+        String assignLeaveQLText = driver.findElement(assignLeaveQuickLaunch).getText();
+        System.out.println(assignLeaveQLText);
+        driver.findElement(assignLeaveQLTaste).click();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(assignLeaveButton));
-        Assert.assertTrue(driver.findElement(assignLeaveButton).isSelected(), "Assign Leave ist nicht ausgewählt!");
+        wait.until(ExpectedConditions.presenceOfElementLocated(assignLeaveTitel));
+        String assignLeaveTitelText = driver.findElement(assignLeaveTitel).getText();
+        System.out.println(assignLeaveTitelText);
+
+        Assert.assertEquals(assignLeaveQLText, assignLeaveTitelText);
     }
 }
