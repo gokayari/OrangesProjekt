@@ -1,7 +1,4 @@
-import Pages.BasePage;
-import Pages.HomePage;
-import Pages.MenuItemsPage;
-import Pages.RecruitmentPage;
+import Pages.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
@@ -17,6 +14,7 @@ public class Tests {
     HomePage homePage;
     MenuItemsPage menuItemsPage;
     RecruitmentPage recruitmentPage;
+    DashboardPage dashboardPage;
 
     @BeforeMethod
     public void setup(){
@@ -89,7 +87,25 @@ public class Tests {
                 ConfigurationReader.getProperty("Nachname"));
     }
 
+    @Test (priority = 2)
+    public void funktionTest2(){
+        dashboardPage = new DashboardPage(driver);
 
+        //Benutzername eingeben:
+        homePage.benutzernameEingeben(ConfigurationReader.getProperty("Benutzername"));
+
+        //Passwort eingeben:
+        homePage.passwortEingeben(ConfigurationReader.getProperty("Passwort"));
+
+        //Einloggen:
+        homePage.einloggen();
+
+        //Prüfen, ob die Funktion "Quick Launch" funktioniert:
+        dashboardPage.quickLaunchÜberprüfen();
+
+    }
+
+/*
     @AfterMethod
     public void tearDown(){
         driver.close();
@@ -100,4 +116,6 @@ public class Tests {
         driver.quit();
     }
 
+
+ */
 }
