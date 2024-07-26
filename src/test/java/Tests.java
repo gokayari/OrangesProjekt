@@ -7,7 +7,6 @@ import utilities.ConfigurationReader;
 public class Tests {
 
     WebDriver driver;
-    BasePage basePage;
     HomePage homePage;
     MenuItemsPage menuItemsPage;
     RecruitmentPage recruitmentPage;
@@ -18,22 +17,21 @@ public class Tests {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(ConfigurationReader.getProperty("baseUrl"));
-        basePage = new BasePage(driver);
         homePage = new HomePage(driver);
         menuItemsPage = new MenuItemsPage(driver);
+        login();
+    }
+    public void login(){
+        //Benutzername eingeben:
+        homePage.benutzernameEingeben(ConfigurationReader.getProperty("Benutzername"));
+        //Passwort eingeben:
+        homePage.passwortEingeben(ConfigurationReader.getProperty("Passwort"));
+        //Einloggen:
+        homePage.einloggen();
     }
 
     @Test(priority = 0)
     public void loginTest() {
-
-        //Benutzername eingeben:
-        homePage.benutzernameEingeben(ConfigurationReader.getProperty("Benutzername"));
-
-        //Passwort eingeben:
-        homePage.passwortEingeben(ConfigurationReader.getProperty("Passwort"));
-
-        //Einloggen:
-        homePage.einloggen();
 
         //Prüfen, ob Einloggen erfolgreich war:
         menuItemsPage.einloggenÜberprüfen(ConfigurationReader.getProperty("Überprüfungstext"));
@@ -42,34 +40,16 @@ public class Tests {
     @Test(priority = 1)
     public void menüpunkteTest(){
 
-        //Benutzername eingeben:
-        homePage.benutzernameEingeben(ConfigurationReader.getProperty("Benutzername"));
-
-        //Passwort eingeben:
-        homePage.passwortEingeben(ConfigurationReader.getProperty("Passwort"));
-
-        //Einloggen:
-        homePage.einloggen();
-
         //Prüfen, ob andere Menüpunkte geöffnet werden können:
         menuItemsPage.menüpunkteÜberprüfen();
 
     }
 
     @Test(priority = 2)
-    public void funktionTest(){
+    public void funktionTest1(){
         recruitmentPage = new RecruitmentPage(driver);
 
-        //Benutzername eingeben:
-        homePage.benutzernameEingeben(ConfigurationReader.getProperty("Benutzername"));
-
-        //Passwort eingeben:
-        homePage.passwortEingeben(ConfigurationReader.getProperty("Passwort"));
-
-        //Einloggen:
-        homePage.einloggen();
-
-        //Eingabe von Kandidatendaten:
+        //Erstellen eines neuen Kandidaten im Recruitment-Bereich
         recruitmentPage.eingabeVonKandidatendaten(ConfigurationReader.getProperty("Vorname"),
                 ConfigurationReader.getProperty("Nachname"),
                 ConfigurationReader.getProperty("Stellenausschreibung"),
@@ -88,16 +68,7 @@ public class Tests {
     public void funktionTest2(){
         dashboardPage = new DashboardPage(driver);
 
-        //Benutzername eingeben:
-        homePage.benutzernameEingeben(ConfigurationReader.getProperty("Benutzername"));
-
-        //Passwort eingeben:
-        homePage.passwortEingeben(ConfigurationReader.getProperty("Passwort"));
-
-        //Einloggen:
-        homePage.einloggen();
-
-        //Prüfen, ob die Funktion "Quick Launch" funktioniert:
+        //Prüfen, ob die Funktion "Quick Launch" im Dashboard-Bereich funktioniert:
         dashboardPage.quickLaunchÜberprüfen();
 
     }
