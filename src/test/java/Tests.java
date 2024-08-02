@@ -1,16 +1,21 @@
 import Pages.*;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utilities.ConfigurationReader;
 
+import java.io.File;
+import java.io.IOException;
+
 public class Tests {
 
-    WebDriver driver;
-    HomePage homePage;
-    MenuItemsPage menuItemsPage;
-    RecruitmentPage recruitmentPage;
-    DashboardPage dashboardPage;
+    private WebDriver driver;
+    private HomePage homePage;
+    private MenuItemsPage menuItemsPage;
 
     @BeforeMethod
     public void setup(){
@@ -47,7 +52,7 @@ public class Tests {
 
     @Test(priority = 2)
     public void funktionTest1(){
-        recruitmentPage = new RecruitmentPage(driver);
+        RecruitmentPage recruitmentPage = new RecruitmentPage(driver);
 
         //Erstellen eines neuen Kandidaten im Recruitment-Bereich
         recruitmentPage.eingabeVonKandidatendaten(ConfigurationReader.getProperty("Vorname"),
@@ -66,7 +71,7 @@ public class Tests {
 
     @Test (priority = 2)
     public void funktionTest2(){
-        dashboardPage = new DashboardPage(driver);
+        DashboardPage dashboardPage = new DashboardPage(driver);
 
         //Prüfen, ob die Funktion "Quick Launch" im Dashboard-Bereich funktioniert:
         dashboardPage.quickLaunchÜberprüfen();
@@ -75,15 +80,30 @@ public class Tests {
 
 
     @AfterMethod
-    public void tearDown(){
-        driver.close();
+    public void tearDown(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            // Screenshot bei Fehler erstellen
+            takeScreenshot(result.getName());
+        }
+        driver.quit();
     }
 
     @AfterClass
     public void tearDownClass() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
+    // Methode, um einen Screenshot zu erstellen
+    private void takeScreenshot(String testName) {
+        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(srcFile, new File("screenshots/" + testName + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
